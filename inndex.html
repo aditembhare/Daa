@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Ratings</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    table {
+        width: 80%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #0078D7;
+        color: white;
+        font-size: 16px;
+    }
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+    .footer {
+        margin-top: 20px;
+        color: #555;
+        font-size: 14px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Companies Sorted by Average Rating (Best to Worst)</h1>
+
+<table id="ratingsTable">
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>Average Rating</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<p class="footer">Generated dynamically with JavaScript</p>
+
+<script>
+// --- Data: 50 companies with multiple ratings ---
+const feedback = [
+    ["Google", 5], ["Google", 5], ["Google", 4], ["Google", 5],
+    ["Apple", 5], ["Apple", 5], ["Apple", 4], ["Apple", 5],
+    ["Microsoft", 5], ["Microsoft", 4], ["Microsoft", 5], ["Microsoft", 5],
+    ["Amazon", 5], ["Amazon", 4], ["Amazon", 5], ["Amazon", 5],
+    ["Facebook", 4], ["Facebook", 4], ["Facebook", 4], ["Facebook", 5],
+    ["Tesla", 5], ["Tesla", 4], ["Tesla", 5],
+    ["Netflix", 5], ["Netflix", 5], ["Netflix", 4],
+    ["NVIDIA", 5], ["NVIDIA", 5], ["NVIDIA", 4],
+    ["Salesforce", 5], ["Salesforce", 4], ["Salesforce", 5],
+    ["Adobe", 5], ["Adobe", 4], ["Adobe", 4],
+    ["Intel", 4], ["Intel", 4], ["Intel", 3],
+    ["Cisco", 4], ["Cisco", 3], ["Cisco", 4],
+    ["Oracle", 4], ["Oracle", 3], ["Oracle", 4],
+    ["IBM", 3], ["IBM", 3], ["IBM", 2],
+    ["Accenture", 3], ["Accenture", 3], ["Accenture", 2],
+    ["Infosys", 3], ["Infosys", 2], ["Infosys", 3],
+    ["TCS", 2], ["TCS", 2], ["TCS", 3],
+    ["Wipro", 2], ["Wipro", 2], ["Wipro", 1],
+    ["Dell", 2], ["Dell", 1], ["Dell", 2],
+    ["HP", 2], ["HP", 2], ["HP", 1],
+    ["Snapchat", 3], ["Snapchat", 2], ["Snapchat", 3],
+    ["Spotify", 3], ["Spotify", 4], ["Spotify", 3],
+    ["Uber", 2], ["Uber", 2], ["Uber", 3],
+    ["Lyft", 2], ["Lyft", 2], ["Lyft", 1],
+    ["Dropbox", 3], ["Dropbox", 3], ["Dropbox", 2],
+    ["Zoom", 4], ["Zoom", 3], ["Zoom", 4]
+];
+
+// --- Process Feedback ---
+const feedbackMap = {};
+feedback.forEach(([company, rating]) => {
+    if (!feedbackMap[company]) feedbackMap[company] = [];
+    feedbackMap[company].push(rating);
+});
+
+let companies = [];
+for (let company in feedbackMap) {
+    const ratings = feedbackMap[company];
+    const avg = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+    companies.push({ company, avg });
+}
+
+// Sort by average rating descending
+companies.sort((a, b) => b.avg - a.avg);
+
+// --- Display in Table ---
+const tbody = document.querySelector("#ratingsTable tbody");
+companies.forEach(item => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${item.company}</td><td>${item.avg.toFixed(2)}</td>`;
+    tbody.appendChild(row);
+});
+</script>
+
+</body>
+</html>
